@@ -147,9 +147,12 @@ function updateAvatar(user) {
   }
 
   if (tag) {
-    tag.textContent = (user.discriminator && user.discriminator !== '0')
-      ? '#' + user.discriminator
-      : '';
+    if (user.discriminator && user.discriminator !== '0') {
+      tag.textContent    = '#' + user.discriminator;
+      tag.style.display  = '';
+    } else {
+      tag.style.display  = 'none';
+    }
   }
 }
 

@@ -549,7 +549,7 @@
     <div class="handles">
       <div class="handle-item">
         <div class="handle-game">
-          <span>🎮</span> Overwatch
+          <span>🎮</span> Overwatch 2
         </div>
         <div class="handle-id" onclick="copyHandle('Xoōki#1412')" style="cursor:pointer" title="Click to copy">Xoōki#1412</div>
       </div>
@@ -562,7 +562,7 @@
     </div>
 
     <div class="footer">
-      <span>~</span> > xooki_ <span>~</span>
+      <span>~</span> xooki.github.io <span>~</span>
     </div>
   </div>
 </div>
@@ -617,14 +617,24 @@
       card.classList.add('visible', 'active');
       nameEl.textContent = game.name;
       detailEl.textContent = game.details || game.state || '';
-      if (game.assets && game.assets.large_image) {
-        const appId = game.application_id;
-        const img = game.assets.large_image;
-        // try to build icon url
-        const src = img.startsWith('mp:') 
-          ? `https://media.discordapp.net/${img.slice(3)}`
-          : `https://cdn.discordapp.com/app-assets/${appId}/${img}.png`;
-        iconWrap.innerHTML = `<img class="presence-icon" src="${src}" onerror="this.style.display='none'" alt="" />`;
+      const appId = game.application_id;
+      const rawImg = game.assets?.large_image || game.assets?.small_image;
+      if (rawImg) {
+        let src;
+        if (rawImg.startsWith('mp:')) {
+          src = `https://media.discordapp.net/${rawImg.slice(3)}`;
+        } else if (rawImg.startsWith('spotify:')) {
+          src = null;
+        } else {
+          src = `https://cdn.discordapp.com/app-assets/${appId}/${rawImg}.png`;
+        }
+        if (src) {
+          iconWrap.innerHTML = `<img class="presence-icon" src="${src}" alt=""
+            onerror="this.onerror=null;this.src='https://cdn.discordapp.com/app-icons/${appId}/icon.png';this.onerror=function(){this.style.opacity='0'}" />`;
+        }
+      } else if (appId) {
+        iconWrap.innerHTML = `<img class="presence-icon" src="https://cdn.discordapp.com/app-icons/${appId}/icon.png" alt=""
+          onerror="this.style.opacity='0'" />`;
       }
     } else {
       card.classList.remove('visible', 'active');

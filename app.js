@@ -58,6 +58,7 @@ function updateSpotify(spotify) {
   const artWrap = document.getElementById('spotifyArtWrap');
 
   if (spotify) {
+    card.style.display = 'flex';
     card.classList.add('playing');
     label.textContent  = 'now playing';
     song.textContent   = spotify.song;
@@ -73,11 +74,8 @@ function updateSpotify(spotify) {
       artWrap.appendChild(img);
     }
   } else {
+    card.style.display = 'none';
     card.classList.remove('playing');
-    label.textContent  = 'not listening';
-    song.textContent   = '—';
-    artist.textContent = '';
-    setSpotifyPlaceholder(artWrap);
   }
 }
 
